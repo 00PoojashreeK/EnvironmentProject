@@ -10,8 +10,8 @@ from weather import get_weather
 from profile import show_profile
 from ui import apply_ui
 
-apply_ui()
 st.set_page_config(layout="wide")
+apply_ui()
 
 # CREATE FILES
 def create_file(file, cols):
