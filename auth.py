@@ -1,19 +1,30 @@
 import pandas as pd
+import os
+
+# Create file if not exists
+if not os.path.exists("users.csv"):
+    pd.DataFrame(
+        columns=["username", "password", "name", "age", "email"]
+    ).to_csv("users.csv", index=False)
+
 
 def signup(u, p, n, a, e):
 
     df = pd.read_csv("users.csv")
 
-    if u in df["username"].values:
-        return False
+    # Remove spaces
+    u = u.strip()
+    p = p.strip()
 
-    a = int(a)
+    # Check existing username
+    if u in df["username"].astype(str).values:
+        return False
 
     new_row = {
         "username": u,
         "password": p,
         "name": n,
-        "age": a,
+        "age": int(a),
         "email": e
     }
 
@@ -28,7 +39,12 @@ def login(u, p):
 
     df = pd.read_csv("users.csv")
 
-    return df[
-        (df["username"] == u) &
-        (df["password"] == p)
+    u = u.strip()
+    p = p.strip()
+
+    user = df[
+        (df["username"].astype(str) == u) &
+        (df["password"].astype(str) == p)
     ]
+
+    return user
